@@ -1,0 +1,46 @@
+/* 헤더 영역 */
+.place_list_header {
+	background : white;
+	top : 0px;
+	left : 0px;
+	right : 0px;
+	z : -10;
+}
+/* 타이틀 컨테이너 */
+.title_container {
+	max-width : 1200px;
+	margin : 0 auto;
+	padding : 12px 36px;
+	display : flex;
+	align-items : center;
+	justify-content : space-between;
+}
+
+/* tripin 타이틀 */
+.main_title {
+	font-size :24px;
+	font-family : 'Pacifico', cursive;
+	color : #4F46E5;
+	text-decoration : none;
+	
+}
+
+/* 버튼 아이콘 그룹 */
+.icon-group {
+	display : flex;
+	align-items : center;
+	gap : 16px;
+}
+
+/* 버튼 공통 스타일 */
+.icon-button {
+  color: #4B5563; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

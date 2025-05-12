@@ -1,0 +1,10 @@
+package com.midproject.tripin.service.impl;
+
+import org.apache.ibatis.annotations.AutomapConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("placeService")
+public class PlaceServiceImpl {
+	@Autowired
+}

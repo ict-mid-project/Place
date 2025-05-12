@@ -1,0 +1,13 @@
+
+.place_list_header {
+	
+}
+
+.place_list_title {
+	font-size :24px;
+	font-family : 'Pacifico', cursive;
+	color : #4F46E5;
+	text-decoration : none;
+	
+}
+

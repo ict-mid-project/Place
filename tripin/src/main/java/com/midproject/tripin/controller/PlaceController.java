@@ -1,0 +1,15 @@
+package com.midproject.tripin.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class PlaceController {
+
+	@RequestMapping("/{step}.do")
+	public String searchPlace(@PathVariable String step) {
+		
+		return step;
+	}
+}
