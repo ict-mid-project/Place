@@ -1,0 +1,28 @@
+$(function(){
+	
+	$('.filter-tag').hide();
+	//테마버튼 클릭시 음영
+	$('.theme-button').on('click', function(){
+		$('.theme-button').removeClass('active');
+		$(this).addClass('active');
+		
+		//선택한 테마 텍스트 
+		var theme = $(this).children('span').text().trim();
+		//alert(theme);
+		
+		$('.filter-tag')
+			.show()
+			.attr('data-value',theme)
+			.find('span').contents().replaceWith(theme); //클릭한 테마의 태그 나오게 
+	})
+	
+	//클로스 아이콘 누르면 테마 초기화
+	$('.ri-close-line').on('click', function(){
+		//alert("ok");
+		//
+		$('.filter-tag').hide();
+		
+	})
+	
+	
+})

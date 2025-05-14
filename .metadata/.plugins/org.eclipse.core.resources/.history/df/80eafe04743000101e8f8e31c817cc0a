@@ -1,0 +1,8 @@
+$(function(){
+	$('.theme-button').on('click', function(){
+		$('.theme-button').removeClass('active');
+		$(this).addClass('actiove');
+		
+	})
+	
+})

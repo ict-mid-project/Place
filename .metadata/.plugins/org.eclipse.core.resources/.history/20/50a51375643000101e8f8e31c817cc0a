@@ -1,0 +1,135 @@
+/* 헤더 영역 */
+.place_list_header {
+	background : white;
+	top : 0px;
+	left : 0px;
+	right : 0px;
+	z-index : -10;
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+}
+/* 컨테이너 */
+.container {
+	max-width : 1200px;
+	margin : 0 10px;
+	padding : 12px 36px;
+	display : flex;
+	align-items : center;
+	justify-content : space-between;
+	position : relative;
+	width : 100%
+}
+
+/* 바디 */
+body {
+	font-family : 'Noto Sans KR', sans-serif;
+	background-color: #f9fafb;
+}
+
+/* tripin 타이틀 */
+.main_title {
+	font-size :36px;
+	font-family : 'Pacifico', cursive;
+	color : #4F46E5;
+	text-decoration : none;
+	
+}
+
+/* 버튼 아이콘 그룹 */
+.icon-group {
+	display : flex;
+	align-items : center;
+	gap : 16px;
+	padding-right : 16px; 
+	
+}
+
+/* 버튼 공통 스타일 */
+.icon-button {
+  color: #4B5563; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 섹션 여백 */
+.search-section {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 검색 바 전체 */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width : 1200px;
+  margin: 0 auto;
+  padding : 0 16px;
+  box-sizing : border-box;
+}
+
+/* 검색 박스 스타일 */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 9999px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height : 48px;
+  width : 100%;
+}
+
+/* 아이콘 영역 */
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: #6B7280;
+}
+
+/* 검색창 인풋 */
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  color: #374151;
+  font-size: 1rem;
+  outline: none;
+  height : 100%;
+  min-width : 0;
+}
+
+/* 검색 버튼 */
+.search-button {
+  background-color: #4F46E5; /* Tailwind의 primary */
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  height: 100%;
+  border-radius: 0 9999px 9999px 0;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* .container, .search-wrapper {
+	width: 100%;
+  max-width: 1200px;
+  margin: 0 10px;
+  padding: 12px 16px;
+  align-items: center;
+} */
+
+/* mypage 아이콘 크기 */
+.ri-user-line {
+	font-size: 24px;
+}

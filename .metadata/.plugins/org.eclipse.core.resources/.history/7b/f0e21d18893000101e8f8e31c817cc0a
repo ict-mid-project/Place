@@ -1,0 +1,12 @@
+$(function(){
+	
+	$('.filter-tag').hide();
+	//테마버튼 클릭시 음영
+	$('.theme-button').on('click', function(){
+		$('.theme-button').removeClass('active');
+		$(this).addClass('active');
+		
+		
+	})
+	
+})

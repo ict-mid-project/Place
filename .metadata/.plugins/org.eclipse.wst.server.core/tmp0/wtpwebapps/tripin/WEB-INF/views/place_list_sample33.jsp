@@ -1,0 +1,439 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripin - 여행지 검색</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#4F46E5',secondary:'#818CF8'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9fafb;
+        }
+        .search-input:focus {
+            outline: none;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#" class="text-2xl font-['Pacifico'] text-primary">Tripin</a>
+            <div class="flex items-center gap-4">
+                <button class="text-gray-600 flex items-center justify-center w-10 h-10">
+                    <i class="ri-heart-line ri-lg"></i>
+                </button>
+                <button class="text-gray-600 flex items-center justify-center w-10 h-10">
+                    <i class="ri-user-line ri-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="container mx-auto px-4 pt-20 pb-16">
+        <!-- 검색 섹션 -->
+        <section class="mb-6 mt-4">
+            <div class="relative w-full mx-auto">
+                <div class="relative flex items-center bg-white rounded-full shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="flex items-center justify-center w-12 h-12 text-gray-500">
+                        <i class="ri-search-line ri-lg"></i>
+                    </div>
+                    <input type="text" placeholder="여행지, 명소, 체험 검색" class="search-input w-full py-3 pr-4 border-none text-gray-700">
+                    <button class="bg-primary text-white px-6 py-3 h-full !rounded-button whitespace-nowrap">검색</button>
+                </div>
+            </div>
+
+            <!-- 테마 필터 탭 -->
+            <div class="mt-4 scroll-container overflow-x-auto pb-2">
+                <div class="flex space-x-4 min-w-max">
+                    <button class="flex flex-col items-center justify-center bg-primary bg-opacity-10 text-primary px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-landscape-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">자연</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-ancient-pavilion-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">문화</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-run-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">레저</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-restaurant-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">맛집</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-hotel-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">숙소</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-shopping-bag-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">쇼핑</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-white px-4 py-3 rounded-lg">
+                        <div class="w-10 h-10 flex items-center justify-center mb-1">
+                            <i class="ri-calendar-event-line ri-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium">축제</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 필터 옵션 영역 -->
+        <section class="mb-6 flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex items-center">
+                <span class="text-gray-600 mr-2">정렬 기준:</span>
+                <div class="relative">
+                    <button class="flex items-center bg-white border border-gray-200 rounded-md px-3 py-1.5 !rounded-button whitespace-nowrap">
+                        <span>인기순</span>
+                        <div class="ml-2 w-4 h-4 flex items-center justify-center">
+                            <i class="ri-arrow-down-s-line"></i>
+                        </div>
+                    </button>
+                </div>
+                <div class="ml-3 flex items-center">
+                    <span class="bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-sm flex items-center">
+                        자연
+                        <button class="ml-1 w-4 h-4 flex items-center justify-center">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <button class="text-gray-500 flex items-center text-sm">
+                <div class="w-4 h-4 flex items-center justify-center mr-1">
+                    <i class="ri-refresh-line"></i>
+                </div>
+                필터 초기화
+            </button>
+        </section>
+
+        <!-- 검색 결과 목록 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 여행지 카드 1 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Beautiful%20Jeju%20Island%20beach%20with%20volcanic%20rocks%2C%20clear%20blue%20water%2C%20and%20palm%20trees.%20Natural%20landscape%20with%20soft%20golden%20sand%20and%20blue%20sky%20with%20few%20clouds.%20Wide%20angle%20view%20of%20peaceful%20coastal%20scenery.&width=600&height=340&seq=1&orientation=landscape" alt="제주도 해변" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">제주 협재 해변</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">에메랄드빛 바다와 하얀 모래사장이 어우러진 제주의 아름다운 해변</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>제주시 한림읍 · 12.5km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.8</span>
+                            <span class="text-xs text-gray-500 ml-1">(256)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 여행지 카드 2 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Serene%20Hallasan%20mountain%20view%20in%20Jeju%2C%20Korea%20with%20lush%20green%20forests%20and%20rocky%20terrain.%20Clear%20blue%20sky%20with%20few%20clouds.%20Wide%20landscape%20shot%20showing%20the%20natural%20beauty%20of%20the%20volcanic%20mountain.&width=600&height=340&seq=2&orientation=landscape" alt="한라산" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">한라산 국립공원</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">제주도의 상징인 한라산, 사계절 다양한 자연경관을 즐길 수 있는 국립공원</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>제주시 애월읍 · 8.3km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.9</span>
+                            <span class="text-xs text-gray-500 ml-1">(412)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 여행지 카드 3 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Breathtaking%20Seongsan%20Ilchulbong%20Peak%20in%20Jeju%2C%20Korea%20at%20sunset.%20The%20volcanic%20crater%20with%20lush%20green%20grass%20on%20top.%20Dramatic%20orange%20and%20purple%20sky.%20Beautiful%20coastal%20landscape%20with%20rocky%20cliffs%20and%20ocean%20waves.&width=600&height=340&seq=3&orientation=landscape" alt="성산일출봉" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">성산일출봉</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">유네스코 세계자연유산으로 등재된 제주의 대표 명소, 일출 명소로 유명</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>서귀포시 성산읍 · 24.7km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.7</span>
+                            <span class="text-xs text-gray-500 ml-1">(328)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 여행지 카드 4 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Peaceful%20Cheonjeyeon%20Waterfall%20in%20Jeju%2C%20Korea%20with%20multiple%20levels%20of%20cascading%20water%20surrounded%20by%20lush%20green%20vegetation%20and%20rocks.%20Crystal%20clear%20blue%20water%20pool%20at%20the%20bottom.%20Natural%20forest%20setting%20with%20vibrant%20colors.&width=600&height=340&seq=4&orientation=landscape" alt="천제연폭포" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">천제연폭포</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">3단 폭포로 이루어진 천연 명소, 울창한 숲과 어우러진 아름다운 경관</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>서귀포시 중문동 · 15.2km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.6</span>
+                            <span class="text-xs text-gray-500 ml-1">(187)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 여행지 카드 5 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Stunning%20Manjanggul%20Cave%20in%20Jeju%2C%20Korea%20with%20impressive%20lava%20tube%20formations.%20Dark%20cave%20interior%20with%20dramatic%20lighting%20highlighting%20the%20unique%20geological%20structures.%20Natural%20wonder%20with%20stone%20pillars%20and%20stalactites.&width=600&height=340&seq=5&orientation=landscape" alt="만장굴" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">만장굴</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">세계 최대 규모의 용암동굴, 유네스코 세계자연유산으로 지정된 지질명소</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>제주시 구좌읍 · 19.8km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.5</span>
+                            <span class="text-xs text-gray-500 ml-1">(156)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 여행지 카드 6 -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Beautiful%20Udo%20Island%20near%20Jeju%2C%20Korea%20with%20pristine%20white%20sandy%20beaches%20and%20emerald%20blue%20water.%20Small%20island%20landscape%20with%20green%20fields%20and%20traditional%20stone%20walls.%20Scenic%20coastal%20view%20with%20gentle%20waves.&width=600&height=340&seq=6&orientation=landscape" alt="우도" class="w-full h-48 object-cover object-top">
+                    <button class="absolute top-3 right-3 bg-white bg-opacity-80 rounded-full w-8 h-8 flex items-center justify-center">
+                        <i class="ri-heart-line text-gray-700"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1">우도</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">제주 동쪽에 위치한 소섬, 하얀 백사장과 에메랄드빛 바다가 아름다운 곳</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>제주시 우도면 · 27.3km</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-yellow-400 mr-1">
+                                <i class="ri-star-fill"></i>
+                            </div>
+                            <span class="text-sm font-medium">4.7</span>
+                            <span class="text-xs text-gray-500 ml-1">(215)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 로딩 스켈레톤 UI -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <div class="w-full h-48 skeleton"></div>
+                </div>
+                <div class="p-4">
+                    <div class="skeleton h-6 w-3/4 mb-2 rounded"></div>
+                    <div class="skeleton h-4 w-full mb-1 rounded"></div>
+                    <div class="skeleton h-4 w-2/3 mb-3 rounded"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="skeleton h-4 w-1/3 rounded"></div>
+                        <div class="skeleton h-4 w-1/4 rounded"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 로딩 스켈레톤 UI -->
+            <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                <div class="relative">
+                    <div class="w-full h-48 skeleton"></div>
+                </div>
+                <div class="p-4">
+                    <div class="skeleton h-6 w-3/4 mb-2 rounded"></div>
+                    <div class="skeleton h-4 w-full mb-1 rounded"></div>
+                    <div class="skeleton h-4 w-2/3 mb-3 rounded"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="skeleton h-4 w-1/3 rounded"></div>
+                        <div class="skeleton h-4 w-1/4 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 결과 없음 상태 (기본적으로 숨김) -->
+        <section class="hidden flex flex-col items-center justify-center py-16">
+            <div class="w-24 h-24 flex items-center justify-center text-gray-300 mb-4">
+                <i class="ri-search-line ri-4x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-700 mb-2">검색 결과가 없습니다</h3>
+            <p class="text-gray-500 text-center mb-6">다른 키워드나 필터로 다시 검색해보세요</p>
+            <button class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap">다시 검색하기</button>
+        </section>
+
+        <!-- 에러 상태 (기본적으로 숨김) -->
+        <section class="hidden flex flex-col items-center justify-center py-16">
+            <div class="w-24 h-24 flex items-center justify-center text-red-300 mb-4">
+                <i class="ri-error-warning-line ri-4x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-700 mb-2">오류가 발생했습니다</h3>
+            <p class="text-gray-500 text-center mb-6">잠시 후 다시 시도해주세요</p>
+            <button class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap">다시 시도하기</button>
+        </section>
+    </main>
+
+    <!-- 더 불러오기 버튼 -->
+    <div class="container mx-auto px-4 pb-8 flex justify-center">
+        <button class="bg-white border border-gray-200 text-gray-700 px-6 py-3 !rounded-button whitespace-nowrap flex items-center">
+            <span>더 보기</span>
+            <div class="ml-2 w-4 h-4 flex items-center justify-center">
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 테마 필터 버튼 클릭 이벤트
+            const themeButtons = document.querySelectorAll('section:first-of-type button');
+            themeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    themeButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'bg-opacity-10', 'text-primary');
+                        btn.classList.add('bg-white');
+                    });
+                    this.classList.remove('bg-white');
+                    this.classList.add('bg-primary', 'bg-opacity-10', 'text-primary');
+                });
+            });
+
+            // 찜하기 버튼 클릭 이벤트
+            const heartButtons = document.querySelectorAll('.ri-heart-line');
+            heartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (this.classList.contains('ri-heart-line')) {
+                        this.classList.remove('ri-heart-line');
+                        this.classList.add('ri-heart-fill', 'text-red-500');
+                    } else {
+                        this.classList.remove('ri-heart-fill', 'text-red-500');
+                        this.classList.add('ri-heart-line');
+                    }
+                });
+            });
+
+            // 필터 태그 삭제 이벤트
+            const filterCloseBtn = document.querySelector('.ri-close-line').parentElement;
+            if (filterCloseBtn) {
+                filterCloseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.parentElement.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
