@@ -1,0 +1,32 @@
+package com.midproject.tripin.controller;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.midproject.tripin.service.impl.PlaceService;
+
+@Controller
+public class PlaceController {
+	
+	@Autowired
+	private PlaceService placeService;
+	
+	@RequestMapping("/{step}.do")
+	public String searchPlace(@PathVariable String step) {
+		
+		return step;
+	}
+	
+	@RequestMapping("/locations/position/{mapX}/{mapY}")
+	@ResponseBody
+	public void findAllPosition() {
+		
+	}
+	
+	
+	
+}

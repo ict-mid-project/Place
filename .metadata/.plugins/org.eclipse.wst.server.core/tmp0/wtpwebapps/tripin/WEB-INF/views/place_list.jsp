@@ -25,18 +25,19 @@
   <header class="place_list_header">
     <div class="container">
       <!-- 타이틀 -->
-      <a href="#" class="main_title">Tripin</a> 
-      <nav>
-      	<a href="#" class="home">홈</a>
-      	<a href="#" class="trivy">트리비와 대화하기</a>
-      	<a href="#" class="theme">테마여행</a>
-      	<a href="#" class="community">커뮤니티</a>      
-      </nav>		
-      <div class="icon-group">
-        <button class="icon-button">
-          <i class="ri-user-line"></i>
-        </button>
+      <div class="left-header">
+	      <a href="#" class="main_title">Tripin</a> 
+	      <nav class="main-nav">
+	      	<a href="#" class="home">홈</a>
+	      	<a href="#" class="trivy">트리비와 대화하기</a>
+	      	<a href="#" class="theme">테마여행</a>      
+	      </nav>	
       </div>
+    <div class="icon-group">
+      <button class="icon-button">
+        <i class="ri-user-line"></i>
+      </button>
+    </div>
     </div>
   </header>
 
@@ -52,6 +53,9 @@
         <input type="text" class="search-input" placeholder="여행지, 명소, 체험 검색">
         <button class="search-button">검색</button>
       </div>
+        <form action="fetch" method="get">
+        	<button type="submit">최신여행정보 불러오기</button>
+        </form>
     </section>
   </div>
   
@@ -135,36 +139,55 @@
   <!-- 검색 결과 목록 : db연결 -->
   <section class="result-bar">
   	<!-- 여행지카드1 -->
-  	<div class="place-card">
-  		<img  class="place-img" 
-  		src="https://readdy.ai/api/search-image?query=Beautiful%20Jeju%20Island%20beach%20with%20volcanic%20rocks%2C%20clear%20blue%20water%2C%20and%20palm%20trees.%20Natural%20landscape%20with%20soft%20golden%20sand%20and%20blue%20sky%20with%20few%20clouds.%20Wide%20angle%20view%20of%20peaceful%20coastal%20scenery.&amp;width=600&amp;height=340&amp;seq=1&amp;orientation=landscape" 
-  		alt="제주도 해변">
-  		<button class="bookmark">
-  			<i class="ri-heart-line"></i>
-  		</button>
-  		<div class="place-content">
-  			<h3 class="place-title">제주 협재 해변</h3>
-  			<p class="place-text">에메랄드 빛 바다와 하얀 모래사장이 어우러진 제주의 아름다운 해변</p>
-  		</div>
-  		<div class="place-info">
-            <div class="place-info-left">
-                <div class="map-pin">
-                    <i class="ri-map-pin-line"></i>
-                </div>
-                <span>제주시 한림읍 · 12.5km</span>
-            </div>
-            <div class="place-info-right">
-                <div class="star">
-                    <i class="ri-star-fill"></i>
-                </div>
-                <span class="place-rate">4.8</span>
-                <span class="place-review-cnt">(256)</span>
-            </div>
-        </div>
-  	</div>
-  
-  
+  	<c:forEach var="place" items="${placeList}">
+	  	<div class="place-card">
+	  	<!-- 이미지 유무 -->
+	  	<c:choose>
+	  		<c:when test="${empty place.repr_img_url}">
+	  			<div class="skeleton-img shimmer"></div>
+	  		</c:when>
+	  		<c:otherwise>
+		  		<img  class="place-img" 
+		  		src="${place.repr_img_url}" 
+		  		alt="${place.dest_name}">	  			
+	  		</c:otherwise>
+	  	</c:choose>
+	  		<button class="bookmark">
+	  			<i class="ri-heart-line"></i>
+	  		</button>
+	  		<div class="place-content">
+	  			<h3 class="place-title">${place.dest_name}</h3>
+	  			<p class="place-text">${place.rel_keywords}</p>
+	  		</div>
+	  		<div class="place-info">
+	            <div class="place-info-left">
+	                <div class="map-pin">
+	                    <i class="ri-map-pin-line"></i>
+	                </div>
+	                <span>${place.full_address}</span>
+	            </div>
+	            <div class="place-info-right">
+	                <div class="star">
+	                    <i class="ri-star-fill"></i>
+	                </div>
+	                <span class="place-rate">4.8</span>
+	                <span class="place-review-cnt">(256)</span>
+	            </div>
+	        </div>
+	  	</div>
+  	</c:forEach>
   </section>
+  <!-- 더 불러오기 버튼 -->
+  <div class="load-more-wrapper">
+  	<button class="load-more-btn">
+  		<span class="load-more-text">더 보기</span>
+  		<div class="load-more-icon">
+  			<i class="ri-arrow-down-s-line"></i>
+  		</div>
+  	</button>
+  
+  
+  </div>
   </main>
  
  

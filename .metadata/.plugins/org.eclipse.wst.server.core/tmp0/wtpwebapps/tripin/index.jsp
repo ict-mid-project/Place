@@ -9,5 +9,6 @@
 <body>
 
 <a href="place_list.do">여행지 검색</a>
+
 </body>
 </html>

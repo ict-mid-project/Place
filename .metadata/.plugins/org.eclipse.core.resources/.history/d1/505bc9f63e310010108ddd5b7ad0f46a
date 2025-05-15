@@ -1,0 +1,51 @@
+package com.midproject.tripin.service.impl;
+
+import java.net.URL;
+import java.net.URLEncoder;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.midproject.tripin.repository.PlaceRepo;
+import com.midproject.tripin.service.PlaceOpenAPIService;
+import com.sun.net.ssl.HttpsURLConnection;
+
+@Service("placeOpenAPIService")
+public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
+	@Autowired
+	private PlaceRepo placeRepo;
+
+	public int fetchAndSavePlaces() {
+		int savedCount = 0;
+		
+		try {
+			String serviceKey = "It%2FGnlGdSEN8rTI9utdTTht%2FodchebqCirUx8t7QCttJazG%2Br1gS%2FfrN6Ku1kIdVfr3Carf%2BPVow7NpHVG5jpg%3D%3D";
+			String urlStr = "https://apis.data.go.kr/B551011/KorService1/areaBasedList2"
+					+ "?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8")
+					+ "&numOfRows=10" 		//한페이지당 결과 수 
+			        + "&pageNo=1"			//요청할 페이지 번호
+			        + "&MobileOS=ETC"		//호출하는 os
+			        + "&MobileApp=Tripin"	//호출 앱 이름
+			        + "&arrange=A"			//정렬방법 
+			        + "&contentTypeId=12"	//콘텐츠유형
+			        + "&areaCode=1"			//지역코드 
+			        + "&_type=json";		//응답타입
+			
+			URL url = new URL(urlStr);
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			
+			
+//			if(placeRepo.selectPlaceById(place.getDest_id())==null) {
+//				placeRepo.insertPlace(place);
+//			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return savedCount;
+	}
+	
+	
+	
+}

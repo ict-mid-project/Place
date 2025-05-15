@@ -1,0 +1,41 @@
+package com.midproject.tripin.service.impl;
+
+import java.net.URLEncoder;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.midproject.tripin.repository.PlaceRepo;
+
+@Service("placeOpenAPIService")
+public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
+	@Autowired
+	private PlaceRepo placeRepo;
+
+	public int fetchAndSavePlaces() {
+		int savedCount = 0;
+		
+		try {
+			String serviceKey = "It%2FGnlGdSEN8rTI9utdTTht%2FodchebqCirUx8t7QCttJazG%2Br1gS%2FfrN6Ku1kIdVfr3Carf%2BPVow7NpHVG5jpg%3D%3D";
+			String urlStr = "https://apis.data.go.kr/B551011/KorService1/areaBasedList2"
+					+ "?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8")
+					+ "&numOfRows=10"
+			        + "&pageNo=1"
+			        + "&MobileOS=ETC"
+			        + "&MobileApp=Tripin"
+			        + "&arrange=A"
+			        + "&contentTypeId=12"
+			        + "&areaCode=1"
+			        + "&_type=json";
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return savedCount;
+	}
+	
+	
+	
+}

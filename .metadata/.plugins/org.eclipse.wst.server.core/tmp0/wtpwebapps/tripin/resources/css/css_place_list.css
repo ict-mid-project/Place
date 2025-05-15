@@ -21,7 +21,7 @@
 /* 헤더 */
 .place_list_header {
   background: white;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -29,12 +29,18 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
+.left-header {
+  display: flex;
+  align-items: center;
+  gap : 16px;
+}
+
 /* 배경 및 기본 폰트 */
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #f9fafb;
   margin: 0;
-  padding-top: 80px; /* 헤더 높이만큼 여백 */
+  padding-top: 10px; /* 헤더 높이만큼 여백 */
 }
 
 /* Tripin 타이틀 */
@@ -42,28 +48,50 @@ body {
   font-size: 36px;
   font-family: 'Pacifico', cursive;
   color: #4F46E5;
-  margin: 0;
+  margin-right: 12px;
   text-decoration: none;
 }
 
 /* 네비게이션 바 */
-nav {
+.main-nav {
+  margin-left: 16px;
   display: flex;
-  gap: 24px;
-  flex-grow: 1;
 }
 
-nav a {
-  font-size: 15px;
-  color: #1F2937; /* text-gray-800 */
-  text-decoration: none;
-  padding: 4px 8px;
-  transition: color 0.2s;
-}
+.main-nav {
+  	display: flex;
+  	align-items: flex-start;
+  }
 
-nav a:hover {
-  color: #4F46E5;
-  font-weight: 500;
+  .main-nav a {
+    padding: 0.5rem 1rem; 
+    color: #374151; 
+    font-weight: 500; 
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .main-nav a:hover {
+    color: #4F46E5; 
+  }
+
+@media (max-width: 768px) {
+  .main-nav {
+  	writhing-mode: vertical-rl;
+  	align-items: flex-start;
+  }
+
+  .main-nav a {
+    padding: 0.5rem 1rem; 
+    color: #374151; 
+    font-weight: 500; 
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .main-nav a:hover {
+    color: #4F46E5; 
+  }
 }
 
 /* 사용자 아이콘 그룹 */
@@ -354,6 +382,16 @@ nav a:hover {
   display: block;
 }
 
+/* 이미지값 null인 경우 */
+.skeleton-img {
+  width: 100%;
+  height: 192px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  animation : shimmer 1.5s infinite;
+}
+
+
 /* 찜 버튼 */
 .bookmark {
   position: absolute;
@@ -438,4 +476,35 @@ nav a:hover {
   color: #ef4444;
 }
 
+/* 더보기버튼 */
+.load-more-btn {
+    background-color: white;
+    border: 1px solid #e5e7eb; 
+    color: #374151;            
+    padding: 12px 12px;        
+    border-radius: 9999px;     
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.load-more-wrapper {
+	display: flex;
+	justify-content: center;
+	padding: 32px 16px;
+}
+
+.load-more-icon {
+	padding: 6px 12px;
+	display: flex;
+  	align-items: center;   
+}
+
+.load-more-text {
+	padding: 6px 12px;
+	display: flex;
+  	align-items: center;
+}
 

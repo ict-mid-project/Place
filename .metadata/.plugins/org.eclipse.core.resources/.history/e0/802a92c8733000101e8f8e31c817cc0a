@@ -1,7 +1,0 @@
-$(function(){
-	$('theme-button').on('click', function(){
-		this.removeClass('active');
-		
-	})
-	
-})

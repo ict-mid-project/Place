@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 여행지 목록, 검색 sql -->
+<mapper namespace="com.midproject.tripin.repository.PlaceRepo">
+
+<!-- openAPI 값 db저장 -->
+<select id="selectPlaceById" parameterType="String" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT
+		dest_id
+		, dest_name
+		, dest_type
+		, repr_img,url
+		, full_address
+		, contact_num
+		, oper_hours
+		, fee_info
+		, rel_keywords
+		, orig_json_data
+	FROM dests
+	WHERE dest_id = #{dest_id}
+</select>
+
+<insert id="insertPlace" parameterType="com.midproject.tripin.model.PlaceVO">
+	INSERT INTO dests(dest_id
+		, dest_name
+		, dest_type
+		, repr_img_url
+		, full_address
+		, contact_num
+		, oper_hours
+		, fee_info
+		, rel_keywords
+		, orig_json_data)
+	VALUES (dest_seq.NEXTVAL
+		, #{dest_name}
+		, #{dest_type}
+		, #{repr_img_url}
+		, #{full_address}
+		, #{contact_num}
+		, #{oper_hours}
+		, #{fee_info}
+		, #{rel_keywords}
+		, #{orig_json_data}
+		)
+</insert>
+
+</mapper>

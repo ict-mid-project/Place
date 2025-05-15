@@ -1,0 +1,9 @@
+package com.midproject.tripin.service.impl;
+
+import org.springframework.stereotype.Service;
+
+@Service("placeService")
+public class PlaceServiceImpl {
+	
+	
+}

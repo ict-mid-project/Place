@@ -1,6 +1,0 @@
-$(function(){
-	$('theme-button').each({
-		
-	})
-	
-})
