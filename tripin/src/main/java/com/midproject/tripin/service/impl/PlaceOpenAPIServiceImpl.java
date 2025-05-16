@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -12,15 +13,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.midproject.tripin.model.PlaceDestThemesVO;
 import com.midproject.tripin.model.PlaceVO;
-import com.midproject.tripin.repository.PlaceRepo;
+import com.midproject.tripin.repository.PlaceOpenAPIRepo;
 import com.midproject.tripin.service.PlaceOpenAPIService;
+import com.midproject.tripin.util.PlaceThemeSort;
 
 
 @Service("placeOpenAPIService")
 public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
 	@Autowired
-	private PlaceRepo placeRepo;
+	private PlaceOpenAPIRepo placeOpenAPIRepo;
 
 	
 	//openAPI 서버로부터 데이터 받아오기
@@ -31,12 +34,12 @@ public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
 			String serviceKey = "It/GnlGdSEN8rTI9utdTTht/odchebqCirUx8t7QCttJazG+r1gS/frN6Ku1kIdVfr3Carf+PVow7NpHVG5jpg==";
 			String urlStr = "https://apis.data.go.kr/B551011/KorService2/areaBasedList2"
 					+ "?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8")
-					+ "&numOfRows=10" 		//한페이지당 결과 수 
+					+ "&numOfRows=100" 		//한페이지당 결과 수 
 			        + "&pageNo=1"			//요청할 페이지 번호
 			        + "&MobileOS=ETC"		//호출하는 os
 			        + "&MobileApp=Tripin"	//호출 앱 이름
-			        + "&arrange=A"			//정렬방법 
-			        + "&contentTypeId=12"	//콘텐츠유형
+//			        + "&arrange=A"			//정렬방법 
+//			        + "&contentTypeId=12"	//콘텐츠유형
 //			        + "&areaCode=1"			//지역코드 
 			        + "&_type=json";		//응답타입
 			
@@ -78,10 +81,34 @@ public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
 			    place.setContact_num(obj.optString("tel", ""));
 			    place.setRepr_img_url(obj.optString("firstimage", ""));
 			    place.setOrig_json_data(obj.toString());
+			    
+			    //카테고리 정보 저장 
+			    place.setCat1(obj.optString("cat1",""));
+			    place.setCat2(obj.optString("cat2",""));
+			    place.setCat3(obj.optString("cat3",""));
 			
 			//DB중복확인 후 저장
-			if(placeRepo.selectPlaceById(place.getDest_name())==null) {
-				placeRepo.insertPlace(place);
+			if(placeOpenAPIRepo.selectPlaceById(place.getDest_name())==null) {
+				placeOpenAPIRepo.insertPlace(place);
+				
+				
+				//cat1,2,3 기준으로 테마이름 리턴
+				List<String> theme_name = PlaceThemeSort.mapTheme(place.getCat1(), place.getCat2(), place.getCat3());
+				//테마이름으로 themes 테이블에서 해당 테마 id 조회 
+				
+				for(String theme : theme_name) {
+					Integer theme_id = placeOpenAPIRepo.selectThemeIdByName(theme);
+				
+					//themeId가 null이 아니면 실행 
+					if(theme_id != null) {
+						PlaceDestThemesVO vo = new PlaceDestThemesVO();
+						vo.setDest_id(place.getDest_id());
+						vo.setTheme_id(theme_id);
+						placeOpenAPIRepo.insertDestTheme(vo);
+						
+					}
+				}
+				
 				savedCount++;
 			}
 			
@@ -93,6 +120,9 @@ public class PlaceOpenAPIServiceImpl implements PlaceOpenAPIService{
 		
 		return savedCount;
 	}
+	
+	//테마별 분류
+	
 	
 	
 	

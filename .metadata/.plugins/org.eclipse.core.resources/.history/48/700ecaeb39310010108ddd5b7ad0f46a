@@ -1,6 +1,0 @@
-package com.midproject.tripin.service.impl;
-
-@Service("placeOpenAPIService")
-public interface PlaceOpenAPIServiceImpl {
-
-}

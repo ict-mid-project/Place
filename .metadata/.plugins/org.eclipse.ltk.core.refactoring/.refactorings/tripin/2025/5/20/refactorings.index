@@ -12,3 +12,23 @@
 1747278061038	Delete element
 1747280342301	Rename package 'com.midproject.tripin.service.impl'
 1747280357042	Move compilation units
+1747360332158	Rename type 'PlaceService'
+1747360337565	Rename type 'PlaceService2'
+1747360351030	Rename type 'PlaceServiceImpl'
+1747360357922	Rename type 'PlaceServiceImpl2'
+1747360932148	Rename type 'PlaceRepo'
+1747360939960	Rename type 'PlaceRepo2'
+1747361014085	Rename resource 'PlaceMapper.xml'
+1747361021714	Rename resource 'PlaceMapper2.xml'
+1747361084745	Rename type 'PlaceController'
+1747361092607	Rename type 'PlaceController2'
+1747361481764	Delete element
+1747361484629	Delete element
+1747361492908	Delete element
+1747361509514	Delete element
+1747361511624	Delete element
+1747361513795	Delete element
+1747361733543	Rename type 'PlaceViewContorller'
+1747361739937	Rename type 'PlaceViewContorller2'
+1747367759062	Rename type 'PlaceDestTemesVO'
+1747367766699	Rename type 'PlaceDestTemesVO2'

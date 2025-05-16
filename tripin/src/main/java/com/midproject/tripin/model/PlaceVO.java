@@ -14,5 +14,8 @@ public class PlaceVO {
 	private String fee_info;
 	private String rel_keywords;
 	private String orig_json_data;
+	private String cat1;
+	private String cat2;
+	private String cat3;
 	
 }

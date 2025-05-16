@@ -1,0 +1,15 @@
+package com.midproject.tripin.util;
+
+public class PlaceThemeSort {
+	public static String mapTheme(String cat1, String cat2, String cat3) {
+		if("A01".equals(cat1)) return "1"; //자연
+		if ("A02".equals(cat1) && "A0201".equals(cat2)) return "2"; //문화
+        if ("A02".equals(cat1) && "A0202".equals(cat2)) return "3"; //레저
+        if ("A05".equals(cat1)) return "4"; //맛집
+        if ("B02".equals(cat1)) return "5"; //숙소
+        if ("A04".equals(cat1)) return "6"; //쇼핑
+        if ("A02".equals(cat1) && "A0207".equals(cat2)) return "7"; //축제
+		
+		return "8"; //기타
+	}
+}

@@ -1,0 +1,35 @@
+package com.midproject.tripin.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.midproject.tripin.model.PlaceVO;
+import com.midproject.tripin.service.PlaceViewService;
+
+@Controller
+public class PlaceViewController {
+	@Autowired
+	private PlaceViewService placeViewService;
+	
+	@GetMapping("place_list")
+	public String placeList(Model m) {
+		
+		m.addAttribute("placeList", placeViewService.getAllPlaces());
+		
+		return "place_list";
+		
+	}
+	
+	@GetMapping("place_list/json")
+	@ResponseBody
+	public List<PlaceVO> getPlaceByTheme(PlaceVO vo){
+		
+		
+		return placeViewService.getPlaceByTheme();
+	}
+}

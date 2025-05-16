@@ -1,0 +1,19 @@
+package com.midproject.tripin.repository;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.midproject.tripin.model.PlaceDestThemesVO;
+import com.midproject.tripin.model.PlaceVO;
+
+@Mapper
+public interface PlaceOpenAPIRepo {
+
+	PlaceVO selectPlaceById(String dest_name);
+
+	void insertPlace(PlaceVO place);
+
+	Integer selectThemeIdByName(String themeName);
+
+	void insertDestTheme(PlaceDestThemesVO vo);
+	
+}

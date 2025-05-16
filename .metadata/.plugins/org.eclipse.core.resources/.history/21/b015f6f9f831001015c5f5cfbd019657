@@ -1,0 +1,23 @@
+package com.midproject.tripin.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.midproject.tripin.model.PlaceVO;
+import com.midproject.tripin.repository.PlaceViewRepo;
+import com.midproject.tripin.service.PlaceViewService;
+
+@Service("placeService")
+public class PlaceViewServiceImpl implements PlaceViewService{
+	
+	@Autowired
+	private PlaceViewRepo placeViewRepo;
+	
+	public List<PlaceVO> getAllPlaces(){
+		return placeViewRepo.getAllPlaces();
+	}
+	
+	
+}

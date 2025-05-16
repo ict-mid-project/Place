@@ -66,43 +66,43 @@
   			<div class="theme-icon">
   				<i class="ri-landscape-line ri-xl"></i>
   			</div>
-  			<span>자연</span>
+  			<span data-value="1">자연</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-ancient-pavilion-line ri-xl"></i>
   			</div>
-  			<span>문화</span>
+  			<span data-value="2">문화</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-run-line ri-xl"></i>
   			</div>
-  			<span>레저</span>
+  			<span data-value="3">레저</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-restaurant-line ri-xl"></i>
   			</div>
-  			<span>맛집</span>
+  			<span data-value="4">맛집</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-hotel-line ri-xl"></i>
   			</div>
-  			<span>숙소</span>
+  			<span data-value="5">숙소</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-shopping-bag-line ri-xl"></i>
   			</div>
-  			<span>쇼핑</span>
+  			<span data-value="6">쇼핑</span>
   		</button>
   		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-calendar-event-line ri-xl"></i>
   			</div>
-  			<span>축제</span>
+  			<span data-value="7">축제</span>
   		</button>
   	</div>
   </div>
@@ -138,7 +138,7 @@
   </section>
   <!-- 검색 결과 목록 : db연결 -->
   <section class="result-bar">
-  	<!-- 여행지카드1 -->
+  	<!-- 여행지카드 -->
   	<c:forEach var="place" items="${placeList}">
 	  	<div class="place-card">
 	  	<!-- 이미지 유무 -->

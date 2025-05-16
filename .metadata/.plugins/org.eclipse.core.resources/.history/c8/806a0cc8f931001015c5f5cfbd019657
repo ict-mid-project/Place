@@ -1,0 +1,16 @@
+package com.midproject.tripin.repository;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.midproject.tripin.model.PlaceVO;
+
+@Mapper
+public interface PlaceRepo {
+
+	PlaceVO selectPlaceById(String dest_name);
+
+	void insertPlace(PlaceVO place);
+	
+	
+	
+}
