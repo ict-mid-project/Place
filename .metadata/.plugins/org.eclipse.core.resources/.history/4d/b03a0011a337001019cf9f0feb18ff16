@@ -1,0 +1,53 @@
+package com.midproject.tripin.controller;
+
+
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.midproject.tripin.model.PlaceVO;
+import com.midproject.tripin.service.PlaceOpenAPIService;
+import com.midproject.tripin.service.PlaceViewService;
+
+@Controller
+public class PlaceOpenAPIController {
+	
+	@Autowired
+	private PlaceOpenAPIService placeOpenAPIService;
+	
+	@Autowired
+	private PlaceViewService placeViewService;
+	
+//	@RequestMapping("/{step}.do")
+//	public String searchPlace(@PathVariable String step) {
+//		
+//		return step;
+//	}
+	
+	@GetMapping("/fetch")
+	public String fetchPlaces(Model m) {
+		int count = placeOpenAPIService.fetchAndSavePlaces();
+		m.addAttribute("savedCount", count);
+		
+		return "redirect:/place_list"; 	
+	}
+	
+	@GetMapping("/detailView")
+	public String detailView(@RequestParam("dest_id") int dest_id, Model m) {
+		PlaceVO vo = placeViewService.getPlaceByDestId(dest_id);
+		
+		JSONObject detail = placeOpenAPIService.getPlaceDetail(
+				vo.getDest_id(), vo.getContent_type());
+		m.addAttribute("detail", detail);
+		
+		return "placeDetail?destId="+dest_id;
+	}
+	
+	
+	
+	
+	
+}

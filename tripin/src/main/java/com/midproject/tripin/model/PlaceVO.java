@@ -1,10 +1,14 @@
 package com.midproject.tripin.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class PlaceVO {
-	private Integer dest_id;
+	private int dest_id;
 	private String dest_name;
 	private String dest_type;
 	private String repr_img_url;
@@ -14,8 +18,11 @@ public class PlaceVO {
 	private String fee_info;
 	private String rel_keywords;
 	private String orig_json_data;
+	private String created_time;
+	private String rest_date;
 	private String cat1;
 	private String cat2;
 	private String cat3;
+	private int content_type;
 	
 }

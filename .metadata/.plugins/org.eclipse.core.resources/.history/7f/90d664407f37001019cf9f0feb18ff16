@@ -1,0 +1,19 @@
+package com.midproject.tripin.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.midproject.tripin.service.PlaceOpenAPIService;
+
+@Controller
+public class PlaceDetailController {
+	
+	@Autowired
+	private PlaceOpenAPIService placeOpenAPIService;
+	
+	@GetMapping("placeDetail")
+	public void placeDetail() {
+		
+	}
+}

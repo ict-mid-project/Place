@@ -1,0 +1,18 @@
+package com.midproject.tripin.repository;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.midproject.tripin.model.PlaceVO;
+
+@Mapper
+public interface PlaceViewRepo {
+	public List<PlaceVO> getAllPlaces(HashMap map);
+	
+	public List<PlaceVO> getPlaceByTheme(int theme_id);
+	
+	public Integer updateViewCnt(Integer theme_cnt);
+	
+}

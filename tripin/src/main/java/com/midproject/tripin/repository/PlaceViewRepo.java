@@ -1,5 +1,6 @@
 package com.midproject.tripin.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -8,7 +9,12 @@ import com.midproject.tripin.model.PlaceVO;
 
 @Mapper
 public interface PlaceViewRepo {
-	public List<PlaceVO> getAllPlaces();
+	public List<PlaceVO> getAllPlaces(HashMap map);
 	
 	public List<PlaceVO> getPlaceByTheme(int theme_id);
+	
+	public int updateViewCnt(int theme_id);
+	
+	public PlaceVO getPlaceByDestId(int dest_id);
+	
 }

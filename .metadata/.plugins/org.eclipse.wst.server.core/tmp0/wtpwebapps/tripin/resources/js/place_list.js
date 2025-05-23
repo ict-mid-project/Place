@@ -4,6 +4,9 @@ $(function(){
 	var maxloaded = 6;
 	var currentLoaded = 0;
 	
+	const contextPath = '${pageContext.request.contextPath}';
+	
+	
 	//카드 수 6개 제한 함수
 	function showNextCards(){
 		var cards = $('.place-card');
@@ -31,7 +34,7 @@ $(function(){
 	});
 	currentLoaded = Math.min(initialCards.length, maxloaded);
 	
-	$('.filter-tag').hide();
+	
 	
 	
 	//테마버튼 클릭시 음영
@@ -39,21 +42,44 @@ $(function(){
 		$('.theme-button').removeClass('active');
 		$(this).addClass('active');
 		
+		
 		//선택한 테마 텍스트 
 		var theme = $(this).children('span').text().trim();
 		//alert(theme);
+
+		
 		
 		$('.filter-tag')
 			.show()
 			.attr('data-value',theme)
 			.find('span').contents().replaceWith(theme); //클릭한 테마의 태그 나오게 
-	});
-	
-	//테마 버튼 클릭시 
-	$('.theme-button').on('click', function(){
+		
 		//선택한 테마의 data-value 값 
 		var selectedTheme = $(this).children('span').attr('data-value');
-		//alert(selectedTheme);
+		//console.log(selectedTheme);
+		
+		$('#theme').val(theme); //theme value값 설정
+		
+		//현재 선택된 필터값 유지
+		var selectedSort = $('#selectedSort').text().trim();
+		$('#sort').val(selectedSort);
+
+		$('#filter-form').submit(); //submit
+		
+		//테마 클릭시 조회수 증가
+		$.ajax({
+			type : 'post'
+			, url : 'place_list/updateViewCnt'
+			, data : {theme_id : parseInt(selectedTheme)}
+			, success : function(){
+				//console.log("조회수증가성공");				
+			}
+			, error : function(err){
+				console.log(err);
+				//console.log("조회수증가실패");
+			}
+			
+		});//end of ajax count view
 		
 		//클릭한 테마에 맞는 db값 출력
 		$.ajax({
@@ -77,32 +103,33 @@ $(function(){
 					        : `<div class="skeleton-img shimmer"></div>`;
 
 					    const html = `
-					        <div class="place-card" style="display: none;">
-					            ${imgHtml}
-					            <button class="bookmark">
-					                <i class="ri-heart-line"></i>
-					            </button>
-					            <div class="place-content">
-					                <h3 class="place-title">${place.dest_name}</h3>
-					                <p class="place-text">${place.rel_keywords || ''}</p>
-					            </div>
-					            <div class="place-info">
-					                <div class="place-info-left">
-					                    <div class="map-pin">
-					                        <i class="ri-map-pin-line"></i>
-					                    </div>
-					                    <span>${place.full_address}</span>
-					                </div>
-					                <div class="place-info-right">
-					                    <div class="star">
-					                        <i class="ri-star-fill"></i>
-					                    </div>
-					                    <span class="place-rate">4.8</span>
-					                    <span class="place-review-cnt">(256)</span>
-					                </div>
-					            </div>
-					        </div>
-					    `;
+							        <div class="place-card" style="display: none;" 
+					    				onclick="location.href='/placeDetail.do?dest_id=${place.dest_id}'">
+							            ${imgHtml}
+							            <button class="bookmark">
+							                <i class="ri-heart-line"></i>
+							            </button>
+							            <div class="place-content">
+							                <h3 class="place-title">${place.dest_name}</h3>
+							                <p class="place-text">${place.rel_keywords || ''}</p>
+							            </div>
+							            <div class="place-info">
+							                <div class="place-info-left">
+							                    <div class="map-pin">
+							                        <i class="ri-map-pin-line"></i>
+							                    </div>
+							                    <span>${place.full_address}</span>
+							                </div>
+							                <div class="place-info-right">
+							                    <div class="star">
+							                        <i class="ri-star-fill"></i>
+							                    </div>
+							                    <span class="place-rate">4.8</span>
+							                    <span class="place-review-cnt">(256)</span>
+							                </div>
+							            </div>
+							        </div>
+							    `;
 					    
 					    $('.result-bar').append(html);
 				}); //end of each
@@ -122,6 +149,7 @@ $(function(){
 			}
 			
 		}); //end of ajax
+		
 	});
 	
 	
@@ -139,10 +167,18 @@ $(function(){
 	});
 	
 	$('.dropdown-item').on('click', function(){
-		var selected = $(this).data('value');
+		var selected = $(this).data('value'); //data-value값 얻어오기
 		//alert(selected);
-		$('#selectedSort').text(selected);
-		$('#dropdown-menu').hide();
+		$('#selectedSort').text(selected).data('value', selected); //선택한 값으로 text, value 변경
+		$('#dropdown-menu').hide(); //선택 후 드롭다운메뉴 숨기기
+		
+		$('#sort').val(selected); //sort value값 설정
+		
+		//현재 선택된 테마값 유지
+		var selectedTheme = $('.theme-button.active').find('span').text().trim();
+		$('#theme').val(selectedTheme);
+		
+		$('#filter-form').submit(); //submit
 	})
 	
 	//클로스 아이콘 누르면 해당 테마 삭제
@@ -155,15 +191,17 @@ $(function(){
 		
 	})
 	
-	//필터 초기화 누르면 테마 삭제 / 정렬기준 초기화
+	//필터 초기화 누르면 테마 삭제 / 정렬기준 초기화 -> db결과 초기화 
 	$('.reset-button').on('click', function(){
 		$('.filter-tag').hide();
 		$('.theme-button').removeClass('active');
 		$('#selectedSort').text('인기순').data('value', '인기순');
+		
+		
 	})
 	
 	//여행지 결과 좋아요버튼 토글
-	$('.bookmark i').on('click', function(){
+	$('.result-bar').on('click','.bookmark i' ,function(){
 		//alert("ok");
 		if($(this).hasClass('ri-heart-line')) {
 			$(this).removeClass('ri-heart-line').addClass('ri-heart-fill text-red-500');

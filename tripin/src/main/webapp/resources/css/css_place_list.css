@@ -43,15 +43,21 @@ body {
   padding-top: 10px; /* 헤더 높이만큼 여백 */
 }
 
-/* Tripin 타이틀 */
-.main_title {
+/* Tripin logo */
+.logo {
+	width : 100px;
+	height : 40px;
+	align : center;
+}
+
+/* .main_title {
   font-size: 36px;
   font-family: 'Pacifico', cursive;
   color: #4F46E5;
   margin-right: 12px;
   text-decoration: none;
 }
-
+ */
 /* 네비게이션 바 */
 .main-nav {
   margin-left: 16px;
@@ -144,6 +150,7 @@ body {
   height: 48px;
   color: #6B7280;
 }
+
 
 .search-input {
   flex: 1;
@@ -371,6 +378,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  cursor : pointer;
 }
 
 /* 이미지 영역 */

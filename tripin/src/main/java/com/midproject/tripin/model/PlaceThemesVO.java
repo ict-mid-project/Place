@@ -6,4 +6,5 @@ import lombok.Data;
 public class PlaceThemesVO {
 	private int theme_id;
 	private String theme_name;
+	private int theme_cnt;
 }

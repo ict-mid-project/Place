@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- db에 저장된 api값 조회 sql -->
+<mapper namespace="com.midproject.tripin.repository.PlaceViewRepo">
+
+<!-- db저장값 조회 -->
+<!-- 전체 db값 랜덤 출력 -->
+<select id="getAllPlaces" parameterType="string" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT * 
+	FROM (
+		SELECT * FROM dests
+		ORDER BY dbms_random.value )
+	<where>
+		<if test="searchKeyword != null and searchKeyword !=''">
+			(dest_name LIKE '%#{searchKeyword}%'
+			OR full_address LIKE '%#{searchKeyword}%')
+		</if>
+	</where>
+</select>
+
+<!-- 테마별 db값 출력 -->
+<select id="getPlaceByTheme" parameterType="int" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT d.*
+	FROM dests d
+	JOIN dest_themes dt ON dt.dest_id = d.dest_id
+	JOIN themes t ON t.theme_id = dt.theme_id
+	WHERE dt.theme_id = #{theme_id}
+
+</select>
+
+</mapper>

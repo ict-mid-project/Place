@@ -1,7 +1,0 @@
-package com.midproject.tripin.util;
-
-public class PlaceThemeSort {
-	public static String mapTheme(String cat1, String cat2, String cat3) {
-		if("A01".equals(cat1)) return "1";
-	}
-}

@@ -1,0 +1,666 @@
+//document.addEventListener('DOMContentLoaded', function () {
+//  console.log("✅ JS 시작됨");
+//
+//// ⭐ 이미지 첨부 제한 (최대 5장)
+//const previewInput = document.getElementById('previewInput');
+//const previewContainer = document.getElementById('previewContainer');
+//
+//if (previewInput && previewContainer) {
+//  previewInput.addEventListener('change', function () {
+//    const files = Array.from(previewInput.files);
+//
+//    if (files.length > 5) {
+//     showToast("이미지는 최대 5장까지 업로드할 수 있습니다.");
+//      previewInput.value = "";
+//      previewContainer.innerHTML = "";
+//      return;
+//    }
+//
+//    previewContainer.innerHTML = ''; // 초기화
+//
+//    files.forEach(file => {
+//      const reader = new FileReader();
+//      reader.onload = function (e) {
+//        const img = document.createElement('img');
+//        img.src = e.target.result;
+//        img.className = "w-20 h-20 object-cover rounded border";
+//        previewContainer.appendChild(img);
+//      };
+//      reader.readAsDataURL(file);
+//    });
+//  });
+//}
+//
+//
+//
+//  // ✅ 대표 이미지 클릭 모달 (여러 장 지원)
+//// 🔹 대표 이미지 모달 전용 변수
+//let mainImageList = [];
+//let mainImageIndex = 0;
+//
+//// 🔹 대표 이미지 클릭 이벤트
+//const mainPhotos = document.querySelectorAll('.main-photo');
+//mainPhotos.forEach((photo, idx, list) => {
+//  photo.addEventListener('click', function () {
+//    mainImageList = Array.from(list).map(img => img.src);
+//    mainImageIndex = idx;
+//
+//    document.getElementById('mainModalImage').src = mainImageList[mainImageIndex];
+//    document.getElementById('mainImageModal').classList.remove('hidden');
+//  });
+//});
+//
+//// 🔹 대표 이미지 모달 내 이전/다음 버튼
+//document.getElementById('mainPrevBtn')?.addEventListener('click', () => {
+//  if (mainImageList.length === 0) return;
+//  mainImageIndex = (mainImageIndex - 1 + mainImageList.length) % mainImageList.length;
+//  document.getElementById('mainModalImage').src = mainImageList[mainImageIndex];
+//});
+//
+//document.getElementById('mainNextBtn')?.addEventListener('click', () => {
+//  if (mainImageList.length === 0) return;
+//  mainImageIndex = (mainImageIndex + 1) % mainImageList.length;
+//  document.getElementById('mainModalImage').src = mainImageList[mainImageIndex];
+//});
+//
+//// 🔹 대표 이미지 모달 닫기
+//window.closeMainImageModal = function () {
+//  document.getElementById('mainImageModal')?.classList.add('hidden');
+//  mainImageList = [];
+//};
+//
+//window.scrollToSection = function(id) {
+//    const target = document.getElementById(id);
+//    if (!target) return;
+//
+//  // 스크롤 이동
+//  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+//
+//  // 탭 버튼 스타일 초기화
+//  document.querySelectorAll('.tab-btn-style').forEach(btn => {
+//    btn.classList.remove('text-black', 'font-bold', 'border-b-2', 'border-black');
+//  });
+//
+//  // 현재 클릭된 버튼에 스타일 적용
+//  if (id === 'infoSection') {
+//    document.getElementById('tab-info')?.classList.add('text-black', 'font-bold', 'border-b-2', 'border-black');
+//  } else if (id === 'reviewList') {
+//    document.getElementById('tab-review')?.classList.add('text-black', 'font-bold', 'border-b-2', 'border-black');
+//  } else if (id === 'revwriteSection') {
+//    document.getElementById('tab-revwrite')?.classList.add('text-black', 'font-bold', 'border-b-2', 'border-black');
+//  }
+//}
+//  const body = document.body;
+//  const name = body.dataset.name;
+//  const contentId = body.dataset.contentid;
+//  const contextPath = body.getAttribute("data-context-path");
+//  const destId = document.querySelector('input[name="destId"]').value;
+//
+//  console.log("🟢 name:", name, "contentId:", contentId);
+//
+//  if (name && name.trim() !== "" && contentId && contentId.trim() !== "") {
+//    document.getElementById('searchSection')?.classList.add('hidden');
+//    document.getElementById('detailSection')?.classList.remove('hidden');
+//  }
+//
+//  // ⭐ 하트 클릭 토글 이벤트
+//  const likeBtn = document.getElementById("likeBtn");
+//  const likeIcon = document.getElementById("likeIcon");
+//  if (likeBtn && likeIcon) {
+//    likeBtn.addEventListener("click", function () {
+//      likeIcon.classList.toggle("ri-heart-line");
+//      likeIcon.classList.toggle("ri-heart-fill");
+//    });
+//  }
+// let currentSort = 'latest'; // 기본값
+//
+//  document.querySelectorAll('.sort-btn').forEach(btn => {
+//    btn.addEventListener('click', function () {
+//      currentSort = this.dataset.sort;
+//
+//      // 버튼 스타일 갱신
+//      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('bg-primary', 'text-white'));
+//      this.classList.add('bg-primary', 'text-white');
+//
+//      // 리뷰 다시 불러오기
+//      fetchAndRenderReviews(destId, contextPath, currentSort);
+//    });
+//  });
+//
+//  // 기본 리뷰 로딩
+//  fetchAndRenderReviews(destId, contextPath, currentSort);
+//});
+//  // ⭐ 탭 버튼 이벤트
+//
+//  document.querySelectorAll('.tab-btn').forEach(btn => {
+//    btn.addEventListener('click', () => {
+//      const target = btn.dataset.tab;
+//      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-primary', 'border-primary'));
+//      btn.classList.add('active', 'text-primary', 'border-primary');
+//      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+//      document.getElementById(`tab-${target}`).classList.remove('hidden');
+//    });
+//  });
+//
+//  const ratingInput = document.getElementById('ratingInput');
+//  const ratingDisplay = document.getElementById('ratingDisplay');
+//  const starOverlay = document.getElementById('starOverlay');
+//
+//  function updateStars(score) {
+//    const clamped = Math.max(0, Math.min(5, score));
+//    const width = clamped * 24;
+//    starOverlay.style.width = `${width}px`;
+//    ratingDisplay.textContent = `${clamped.toFixed(1)} 점`;
+//    ratingInput.value = clamped.toFixed(1);
+//  }
+//
+//  if (ratingInput) {
+//    ratingInput.addEventListener('input', () => {
+//      const value = parseFloat(ratingInput.value) || 0;
+//      updateStars(value);
+//    });
+//    updateStars(parseFloat(ratingInput.value) || 0);
+//  }
+//
+//  const desc = document.getElementById('description');
+//  if (desc) {
+//    desc.innerHTML = desc.textContent.trim().split('. ').map(s => s.trim()).filter(Boolean).map(s => s + '.').join('<br>');
+//  }
+//
+//  
+//
+//
+//$(function () {
+//  $('#mainSearch').keypress(function (e) {
+//    if (e.which === 13) {
+//      const keyword = $(this).val().trim();
+//      if (keyword !== '강릉') {
+//        showToast('현재는 "강릉"만 검색 가능합니다.');
+//        return;
+//      }
+//      location.href = '/Tripin/destinationdetail?name=' + encodeURIComponent(keyword) + '&contentId=125266';
+//    }
+//  });
+//
+//  $('#reviewForm').submit(function (e) {
+//    e.preventDefault();
+//    const formData = new FormData(this);
+//    const contextPath = document.body.getAttribute("data-context-path");
+//    const destId = document.querySelector('input[name="destId"]').value;
+//
+//    $.ajax({
+//      url: contextPath + "/addReview",
+//      method: 'POST',
+//      data: formData,
+//      processData: false,
+//      contentType: false,
+//      success: function (data) {
+//        showToast('리뷰 등록 완료');
+//        $('#reviewForm')[0].reset();
+//        $('#ratingDisplay').text('0 점');
+//        $('#starOverlay').css('width', '0%');
+//        fetchAndRenderReviews(destId, contextPath);
+//      },
+//      error: function () {
+//        showToast('리뷰 등록 실패!');
+//      }
+//    });
+//  });
+//});
+//
+//
+//function formatRelativeDate(createdAtStr) {
+//  // ✅ createdAtStr은 이미 KST 기준 ISO 문자열이므로, 그대로 파싱
+//  const created = new Date(createdAtStr);
+//  const now = new Date();
+//
+//  const diff = now.getTime() - created.getTime();
+//
+//  const minute = 60 * 1000;
+//  const hour = 60 * minute;
+//  const day = 24 * hour;
+//  const week = 7 * day;
+//
+//  if (diff < minute) return '방금 전';
+//  if (diff < hour) return `${Math.floor(diff / minute)}분 전`;
+//  if (diff < day) return `${Math.floor(diff / hour)}시간 전`;
+//  if (diff < week) return `${Math.floor(diff / day)}일 전`;
+//
+//  // 📌 날짜 표시 형식 (예: 2025. 05. 22.)
+//  return created.toLocaleDateString('ko-KR', {
+//    year: 'numeric',
+//    month: '2-digit',
+//    day: '2-digit'
+//  });
+//}
+//
+//function fetchAndRenderReviews(destId, contextPath, sort = 'latest') {
+//  $.ajax({
+//    url: contextPath + "/getReviewsByDestId",
+//    method: "GET",
+//    data: { destId: destId, sort: sort },
+//    success: function (reviewList) {
+//      $('#reviewList').empty();
+//
+//      reviewList.forEach(data => {
+//        console.log("📦 전체 리뷰 데이터:", data);
+//        const stars = '★'.repeat(Math.floor(data.rating)) + (data.rating % 1 >= 0.5 ? '☆' : '') + '✩'.repeat(5 - Math.ceil(data.rating));
+//		
+//		 let formattedDate = '방금 전';
+//		  if (data.createdAtStr) {
+//  formattedDate = formatRelativeDate(data.createdAtStr);
+//}
+//
+//
+//  let imageHTML = '';
+//if (data.imagePath) {
+//  const rawPaths = data.imagePath.split(',').map(p => p.trim()); // ex: /resources/images/a.jpg
+//  const allPathsJson = JSON.stringify(rawPaths); // 이건 원본 경로 저장용 (모달에 넘길 것)
+//
+//  imageHTML = `
+    <div class="grid grid-cols-2 gap-4 mt-2" data-all-images='${allPathsJson}'>
+      ${rawPaths.slice(0, 2).map(path => `
+        <img src="${contextPath}${path}?v=${Date.now()}"
+             alt="리뷰 이미지"
+             class="w-full h-[250px] object-cover rounded-xl shadow cursor-pointer review-image" />
+      `).join('')}
+    </div>
+  `;
+//}
+//
+//
+//        
+//const loginUserId = document.body.getAttribute('data-login-user-id');
+//  const reviewHtml = `
+  <div class="review-card bg-white shadow rounded-xl p-6 space-y-4 relative" id="review-${data.reviewId}">
+
+    <div class="view-mode space-y-4">
+
+      <!-- ✅ 상단: 회원 ID (왼쪽) + 수정/삭제 (오른쪽) -->
+     <div class="flex justify-between items-start">
+  <div class="text-sm font-semibold text-gray-800">작성자 : ${data.userId}</div>
+  
+<div class="relative">
+<button onclick="toggleMenu(${data.reviewId})" class="p-1 rounded hover:bg-gray-100">
+      <img src="${contextPath}/resources/images/menu_button.png" alt="메뉴 버튼" class="w-6 h-6" />
+    </button>
+    
+
+    <div id="menu-${data.reviewId}" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded shadow z-10">
+      ${
+        (data.userId == loginUserId)
+        ? `
+          <button onclick="editReview(${data.reviewId})" class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100">수정</button>
+          <button onclick="deleteReview(${data.reviewId})" class="block w-full px-4 py-2 text-left text-sm  hover:bg-red-100">삭제</button>
+        `
+        : ''
+      }
+      <button onclick="reportReview(${data.reviewId})" class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100">신고</button>
+      <button onclick="shareReview(${data.reviewId})" class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100">공유하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🔷 이미지 -->
+${imageHTML}
+
+<!-- 🔷 별점 -->
+<div class="flex text-yellow-400 text-base">${stars}</div>
+
+<!-- 🔷 내용 -->
+<p class="text-sm text-gray-900">${(data.content || '').replace(/\n/g, '<br>')}</p>
+
+<!-- 🔷 하단: 작성일 + 수정/삭제 -->
+<div class="flex justify-between items-end">
+   <p class="absolute right-4 bottom-4 text-sm text-gray-450"> ${formattedDate}</p>
+
+  
+</div>
+</div>
+
+    <!-- ✅ 수정 모드 그대로 유지 -->
+    <div class="edit-mode hidden">
+      <input type="number" class="border rounded px-2 py-1 text-sm" name="rating" value="${data.rating}" min="0" max="5" step="0.5" />
+      <textarea name="content" class="w-full mt-2 border p-2 rounded text-sm">${data.content}</textarea>
+
+      <!-- 파일 첨부 input -->
+      <div class="mt-2">
+        <label class="text-sm text-gray-600">이미지 추가:</label>
+        <input type="file" name="newImageFiles" multiple class="mt-1 block w-full text-sm border rounded p-1" />
+      </div>
+
+      <!-- 이미지 미리보기 -->
+      <div id="edit-images-${data.reviewId}" class="grid grid-cols-2 gap-4 mt-3">
+        ${(data.imagePath || '').split(',').map(p => `
+          <div class="relative">
+            <img src="${contextPath}${p}?v=${Date.now()}" class="w-full h-[250px] object-cover rounded shadow" />
+            <button type="button" onclick="this.closest('div').remove();"
+              class="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center">×</button>
+          </div>`).join('')}
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button class="bg-primary text-white px-4 py-2 rounded text-sm" onclick="submitReviewEdit(${data.reviewId})">완료</button>
+        <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded text-sm" onclick="cancelReviewEdit(${data.reviewId})">취소</button>
+      </div>
+    </div>
+  </div>
+`;
+//
+//
+//        $('#reviewList').append(reviewHtml);
+//      });
+//    },
+//    error: function () {
+//     showToast(" 리뷰 목록 불러오기 실패");
+//    }
+//  });
+//}
+//
+//function toggleMenu(reviewId) {
+//  // 모든 메뉴 닫기
+//  document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+//    if (menu.id !== `menu-${reviewId}`) {
+//      menu.classList.add('hidden');
+//    }
+//  });
+//
+//  // 현재 대상 메뉴 열기/닫기 토글
+//  const menu = document.getElementById(`menu-${reviewId}`);
+//  if (menu) {
+//    menu.classList.toggle('hidden');
+//  }
+//}
+//
+//function shareReview(reviewId) {
+//  const url = window.location.origin + window.location.pathname + `#review-${reviewId}`;
+//  navigator.clipboard.writeText(url).then(() => {
+//    showToast("리뷰 링크가 복사되었습니다.");
+//  }).catch(() => {
+//   showToast("클립보드 복사 실패");
+//  });
+//}
+//
+//document.addEventListener('click', function (e) {
+//  const isMenuButton = e.target.closest('button[onclick^="toggleMenu"]');
+//  const isInsideMenu = e.target.closest('[id^="menu-"]');
+//  if (!isMenuButton && !isInsideMenu) {
+//    document.querySelectorAll('[id^="menu-"]').forEach(menu => menu.classList.add('hidden'));
+//  }
+//});
+//
+//
+//
+//function deleteReview(reviewId) {
+//  const userId = prompt("본인 확인을 위해 회원 ID를 입력하세요:");
+//  if (!userId) return;
+//
+//  const contextPath = document.body.getAttribute("data-context-path");
+//  const destId = document.querySelector('input[name="destId"]').value;
+//
+//$.post(contextPath + "/deleteReview", {
+//  reviewId: reviewId,
+//  userId: userId
+//})
+//  .done(() => {
+//    showToast("리뷰가 삭제되었습니다.");
+//    fetchAndRenderReviews(destId, contextPath);
+//  })
+//  .fail((xhr) => {
+//    if (xhr.status === 403) {
+//      showToast("회원 ID가 일치하지 않아 삭제할 수 없습니다.");
+//    } else {
+//      showToast("리뷰 삭제 실패");
+//    }
+//  });
+//
+//}
+//
+//function showToast(message) {
+//  const toast = document.getElementById('toast');
+//  toast.textContent = message;
+//  toast.classList.remove('hidden');
+//  toast.classList.remove('opacity-0');
+//  toast.classList.add('opacity-100');
+//
+//  if (toast._timeout) clearTimeout(toast._timeout);
+//
+//  toast._timeout = setTimeout(() => {
+//    toast.classList.remove('opacity-100');
+//    toast.classList.add('opacity-0');
+//    setTimeout(() => toast.classList.add('hidden'),300);
+//  }, 1000);
+//}
+//
+//
+//
+//function editReview(reviewId) {
+//  const card = document.getElementById(`review-${reviewId}`);
+//  card.querySelector('.view-mode').classList.add('hidden');
+//  card.querySelector('.edit-mode').classList.remove('hidden');
+//}
+//
+//function cancelReviewEdit(reviewId) {
+//  const card = document.getElementById(`review-${reviewId}`);
+//  card.querySelector('.edit-mode').classList.add('hidden');
+//  card.querySelector('.view-mode').classList.remove('hidden');
+//}
+//
+//function submitReviewEdit(reviewId) {
+//console.log("✅ 수정 요청 reviewId:", reviewId);
+//  const card = document.getElementById(`review-${reviewId}`);
+//  const content = card.querySelector('textarea[name="content"]').value;
+//  const rating = card.querySelector('input[name="rating"]').value;
+//
+//  // ✅ contextPath 및 destId 가져오기
+//  const contextPath = document.body.getAttribute("data-context-path");
+//  const destId = document.querySelector('input[name="destId"]').value;
+//
+//  // ✅ 이미지 경로 수집 (수정 모드에서 남아있는 이미지만)
+//  const images = Array.from(card.querySelectorAll('.edit-mode img')).map(img => {
+//    const src = img.src;
+//    // src에서 contextPath를 제거하고 상대경로로 변환
+//    const relativePath = src.replace(location.origin + contextPath, '');
+//    return relativePath.split('?')[0]; // ?v= 제거
+//  });
+//
+//  const formData = new FormData();
+//  formData.append("reviewId", reviewId);
+//  formData.append("userId", 0); // 현재는 임시로 userId = 0
+//  formData.append("content", content);
+//  formData.append("rating", rating);
+//  formData.append("imagePath", images.join(','));
+//
+//	const fileInput = card.querySelector('input[name="newImageFiles"]');
+//  if (fileInput && fileInput.files.length > 0) {
+//    Array.from(fileInput.files).forEach(file => {
+//      formData.append("newImageFiles", file);
+//    });
+//  }
+//	
+//  $.ajax({
+//    url: contextPath + "/updateReview",
+//    method: "POST",
+//    data: formData,
+//    processData: false,
+//    contentType: false,
+//    success: () => {
+//      showToast("리뷰가 수정되었습니다.");
+//      fetchAndRenderReviews(destId, contextPath);
+//    },
+//    error: () => {
+//      showToast("리뷰 수정 실패");
+//    }
+//  });
+//}
+//
+//
+//  
+//
+//// 리뷰 이미지 클릭 시 모달 확대
+//let reviewImageIndex = 0;
+//let reviewImageList = [];
+//let reviewData = null;
+//
+//document.getElementById('reviewList')?.addEventListener('click', function (e) {
+//  const target = e.target;
+//
+//  // ✅ 리뷰 이미지 클릭
+//  if (target.classList.contains('review-image')) {
+//    const imageWrapper = target.closest('[data-all-images]');
+//    if (!imageWrapper) return;
+//
+//    const allImages = imageWrapper.getAttribute('data-all-images');
+//    const rawList = JSON.parse(allImages);
+//    const contextPath = document.body.getAttribute("data-context-path");
+//
+//    reviewImageList = rawList.map(p => location.origin + contextPath + p);
+//    const clickedSrc = target.src.split('?')[0];
+//
+//    // 정확한 인덱스 찾기
+//    reviewImageIndex = reviewImageList.findIndex(src => {
+//      const clean = src.split('?')[0];
+//      return clean === clickedSrc;
+//    });
+//
+//    const reviewCard = target.closest('.review-card');
+//    reviewData = {
+//      userId: reviewCard.querySelector('.text-sm.font-semibold')?.textContent || '',
+//      content: reviewCard.querySelector('p.text-sm.text-gray-900')?.innerHTML || '',
+//      created: reviewCard.querySelector('p.text-sm.text-gray-400')?.textContent || ''
+//    };
+//
+//    updateReviewModalImage();
+//    document.getElementById('imageModal')?.classList.remove('hidden');
+//    return;
+//  }
+//
+//  // ✅ 신고 버튼 클릭
+//  const reportBtn = target.closest('button[id^="reportBtn-"]');
+//  if (reportBtn) {
+//    const reviewId = reportBtn.id.split('-')[1];
+//    reportReview(reviewId);
+//    return;
+//  }
+//});
+//
+//
+//let pendingReportReviewId = null;
+//
+//function reportReview(reviewId) {
+//  pendingReportReviewId = reviewId;
+//  document.getElementById('reportModal').classList.remove('hidden');
+//}
+//
+//function closeReportModal() {
+//  document.getElementById('reportModal').classList.add('hidden');
+//  pendingReportReviewId = null;
+//}
+//
+//document.getElementById('confirmReportBtn').addEventListener('click', () => {
+//  const contextPath = document.body.getAttribute("data-context-path");
+//
+//  fetch(contextPath + "/reportReview", {
+//    method: "POST",
+//    headers: {
+//      "Content-Type": "application/x-www-form-urlencoded"
+//    },
+//    credentials: "same-origin",
+//    body: new URLSearchParams({ reviewId: pendingReportReviewId })
+//  })
+//  .then(res => {
+//    if (res.status === 409) return "already_reported";
+//    return res.text();
+//  })
+//  .then(result => {
+//    if (result === "reported") {
+//      showToast("신고가 접수되었습니다.");
+//    } else if (result === "already_reported") {
+//      showToast("이미 신고한 리뷰입니다.");
+//    } else {
+//      showToast("신고 처리 중 오류가 발생했습니다.");
+//    }
+//    closeReportModal();
+//  })
+//  .catch(() => {
+//    showToast("서버 오류로 신고 실패");
+//    closeReportModal();
+//  });
+//});
+//
+//let pendingDeleteReviewId = null;
+//
+//function deleteReview(reviewId) {
+//  pendingDeleteReviewId = reviewId;
+//  document.getElementById('deleteModal').classList.remove('hidden');
+//}
+//
+//
+//
+//
+//
+//
+//function closeDeleteModal() {
+//  document.getElementById('deleteModal').classList.add('hidden');
+//  document.getElementById('deleteUserIdInput').value = '';
+//  pendingDeleteReviewId = null;
+//}
+//
+//
+//document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+//  const userId = document.getElementById('deleteUserIdInput').value.trim();
+//  if (!userId) {
+//   showToast("회원 ID를 입력하세요.");
+//    return;
+//  }
+//
+//  const contextPath = document.body.getAttribute("data-context-path");
+//  const destId = document.querySelector('input[name="destId"]').value;
+//
+//  $.post(contextPath + "/deleteReview", {
+//    reviewId: pendingDeleteReviewId,
+//    userId: userId
+//  })
+//    .done(() => {
+//      showToast("리뷰가 삭제되었습니다.");
+//      closeDeleteModal();
+//      fetchAndRenderReviews(destId, contextPath);
+//    })
+//    .fail((xhr) => {
+//      if (xhr.status === 403) {
+//        showToast("회원 ID가 일치하지 않아 삭제할 수 없습니다.");
+//      } else {
+//        showToast("리뷰 삭제 실패");
+//      }
+//    });
+//});
+//
+//function updateReviewModalImage() {
+//  const modalImage = document.getElementById('modalImage');
+//  if (!modalImage || reviewImageList.length === 0) return;
+//
+//  modalImage.src = reviewImageList[reviewImageIndex];
+//
+//  document.getElementById('modalUser').textContent = reviewData?.userId || '';
+//  document.getElementById('modalCreated').textContent = reviewData?.created || '';
+//}
+//
+//document.getElementById('prevBtn').addEventListener('click', () => {
+//  if (reviewImageList.length === 0) return;
+//  reviewImageIndex = (reviewImageIndex - 1 + reviewImageList.length) % reviewImageList.length;
+//  updateReviewModalImage();
+//});
+//
+//document.getElementById('nextBtn').addEventListener('click', () => {
+//  if (reviewImageList.length === 0) return;
+//  reviewImageIndex = (reviewImageIndex + 1) % reviewImageList.length;
+//  updateReviewModalImage();
+//});
+//
+//window.closeImageModal = function () {
+//  document.getElementById('imageModal')?.classList.add('hidden');
+//  reviewImageList = [];
+//  reviewData = null;
+//};
+//
+//

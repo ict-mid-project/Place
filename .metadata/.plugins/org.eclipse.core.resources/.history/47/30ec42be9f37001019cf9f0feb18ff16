@@ -1,0 +1,10 @@
+$(function(){
+	$(".tab-btn").click(function(){
+		$(this).click(function(){
+			
+		
+		});
+			
+		
+	});
+});

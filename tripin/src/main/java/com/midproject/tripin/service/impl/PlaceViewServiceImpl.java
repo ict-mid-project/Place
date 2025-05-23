@@ -1,5 +1,6 @@
 package com.midproject.tripin.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,22 @@ public class PlaceViewServiceImpl implements PlaceViewService{
 	@Autowired
 	private PlaceViewRepo placeViewRepo;
 	
-	public List<PlaceVO> getAllPlaces(){
-		return placeViewRepo.getAllPlaces();
+	public List<PlaceVO> getAllPlaces(HashMap map){
+		return placeViewRepo.getAllPlaces(map);
 	}
 	
 	public List<PlaceVO> getPlaceByTheme(int theme_id){
 		return placeViewRepo.getPlaceByTheme(theme_id);
 	}
+	
+	public int updateViewCnt(int theme_id) {
+		return placeViewRepo.updateViewCnt(theme_id);
+	}
+	
+	public PlaceVO getPlaceByDestId(int dest_id) {
+		return placeViewRepo.getPlaceByDestId(dest_id);
+	}
+	
 	
 	
 }
