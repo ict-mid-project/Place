@@ -130,12 +130,59 @@
    	 	<c:when test="${detail.contenttypeid == 39}">
    	 		<p><strong>운영시간: </strong>${detail.usetime}</p>
    	 		<p><strong>휴무일: </strong>${detail.restdatefood}</p>
-   	 		<p><strong>문의처: </strong>${detail.infocenter}</p>
+   	 		<p><strong>문의처: </strong>${detail.reservation}</p>
    	 	</c:when>
    	 </c:choose>
     </div>
     <div id="tab-detail" class="tab-content hidden">
-     
+     <p>${detail.contenettypeid}</p>
+   	 <c:choose>
+   	 	<c:when test="${detail.contenttypeid == 12}">
+   	 		<p><strong>주차시설: </strong>${detail.parking}</p>
+   	 		<p><strong>이용시기: </strong>${detail.useseason}</p>
+   	 		<p><strong>체험가능연령: </strong>${detail.age}</p>
+   	 		<p><strong>체험안내: </strong>${detail.expguide}</p>
+   	 		<p><strong>개장일: </strong>${detail.opendate}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 14}">
+   	 		<p><strong>주차시설: </strong>${detail.parking}</p>
+   	 		<p><strong>관람소요시간: </strong>${detail.spendtime}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 15}">
+   	 		<p><strong>행사장소: </strong>${detail.eventplace}</p>
+   	 		<p><strong>행사장위치: </strong>${detail.placeinfo}</p>
+   	 		<p><strong>주최자: </strong>${detail.sponsor}</p>
+   	 		<p><strong>행사프로그램: </strong>${detail.program}</p>
+   	 		<p><strong>관람소요시간: </strong>${detail.spendtime}</p>
+   	 		<p><strong>행사홈페이지: </strong>${detail.homepage}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 28}">
+   	 		<p><strong>개장기간: </strong>${detail.openperiod}</p>
+   	 		<p><strong>예약안내: </strong>${detail.reservation}</p>
+   	 		<p><strong>수용인원: </strong>${detail.accomcount}</p>
+   	 		<p><strong>체험가능연령: </strong>${detail.age}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 32}">
+   	 		<p><strong>입실시간: </strong>${detail.checkintime}</p>
+   	 		<p><strong>퇴실시간: </strong>${detail.checkouttime}</p>
+   	 		<p><strong>객실유형: </strong>${detail.roomtype}</p>
+   	 		<p><strong>객실수: </strong>${detail.roomcount}</p>
+   	 		<p><strong>수용가능인원: </strong>${detail.accomcount}</p>
+   	 		<p><strong>바베큐장여부: </strong>${detail.barbecue}</p>
+   	 		<p><strong>환불규정: </strong>${detail.refund}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 38}">
+   	 		<p><strong>주차시설: </strong>${detail.parking}</p>
+   	 		<p><strong>판매품목: </strong>${detail.saleitem}</p>
+   	 	</c:when>
+   	 	<c:when test="${detail.contenttypeid == 39}">
+   	 		<p><strong>대표메뉴: </strong>${detail.firstmenu}</p>
+   	 		<p><strong>취급메뉴: </strong>${detail.treatmenu}</p>
+   	 		<p><strong>주차시설: </strong>${detail.parking}</p>
+   	 		<p><strong>포장가능: </strong>${detail.packing}</p>
+   	 		<p><strong>좌석수: </strong>${detail.seat}</p>
+   	 	</c:when>
+   	 </c:choose>
     </div>
   </div>
 </div>
