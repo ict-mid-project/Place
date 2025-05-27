@@ -8,7 +8,7 @@ import com.midproject.tripin.model.PlaceVO;
 public interface PlaceViewService {
 	List<PlaceVO> getAllPlaces(HashMap map);
 
-	List<PlaceVO> getPlaceByTheme(int theme_id);
+//	List<PlaceVO> getPlaceByFilter(int theme_id);
 	
 	int updateViewCnt(int theme_id);
 	

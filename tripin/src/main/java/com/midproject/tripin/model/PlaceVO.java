@@ -24,5 +24,7 @@ public class PlaceVO {
 	private String cat2;
 	private String cat3;
 	private int content_type;
+	private int user_id;
+	private boolean bookmarked;
 	
 }

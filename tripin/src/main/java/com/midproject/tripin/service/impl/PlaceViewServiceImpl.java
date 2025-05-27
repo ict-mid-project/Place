@@ -20,9 +20,9 @@ public class PlaceViewServiceImpl implements PlaceViewService{
 		return placeViewRepo.getAllPlaces(map);
 	}
 	
-	public List<PlaceVO> getPlaceByTheme(int theme_id){
-		return placeViewRepo.getPlaceByTheme(theme_id);
-	}
+//	public List<PlaceVO> getPlaceByFilter(int theme_id){
+//		return placeViewRepo.getPlaceByFilter(theme_id);
+//	}
 	
 	public int updateViewCnt(int theme_id) {
 		return placeViewRepo.updateViewCnt(theme_id);

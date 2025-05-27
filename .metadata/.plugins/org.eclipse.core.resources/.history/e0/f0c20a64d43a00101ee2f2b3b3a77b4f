@@ -1,0 +1,8 @@
+package com.midproject.tripin.model;
+
+public class FavDestsVO {
+	private int user_id;
+	private int dest_id;
+	private String added_at;
+	
+}

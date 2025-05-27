@@ -20,34 +20,36 @@ public class PlaceViewController {
 	@Autowired
 	private PlaceViewService placeViewService;
 	
+	private List<PlaceVO> fetchFilterdPlaces(String searchKeyword, Integer theme_id, String sort){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("searchKeyword", searchKeyword);
+		map.put("theme_id", theme_id);
+		map.put("sort", sort);
+		return placeViewService.getAllPlaces(map);	
+	}
 	
-	//초기 로딩 화면 시 데이터 목록 /검색
+	//초기 페이지 로딩용
 	@GetMapping("place_list")
-	public String placeList(Model m,String searchKeyword 
-							,@RequestParam(required = false)String theme
+	public String placeList(Model m
+							,@RequestParam(required = false)String searchKeyword 
+							,@RequestParam(required = false)Integer theme_id
 							,@RequestParam(required = false) String sort) {
 		
-		
-		HashMap map = new HashMap();
-		map.put("searchKeyword", searchKeyword);
-		map.put("theme", theme);
-		map.put("sort", sort);
-		
-		
-		List<PlaceVO> result = placeViewService.getAllPlaces(map);
+		List<PlaceVO> result = fetchFilterdPlaces(searchKeyword, theme_id, sort);
 		m.addAttribute("placeList", result);
 		
 		return "place_list";
 		
 	}
 	
-	//테마 클릭시 데이터 목록
+	//Ajax 필터용
 	@GetMapping("place_list/json")
 	@ResponseBody
-	public List<PlaceVO> getPlaceByTheme(@RequestParam("theme_id") int theme_id){
+	public List<PlaceVO> getPlaceByFilter(@RequestParam(required = false) String searchKeyword
+										,@RequestParam(required = false) Integer theme_id
+										,@RequestParam(required = false) String sort){
 		
-		
-		return placeViewService.getPlaceByTheme(theme_id);
+		return fetchFilterdPlaces(searchKeyword, theme_id, sort);
 	}
 	
 	//조회수 증가 
@@ -57,5 +59,9 @@ public class PlaceViewController {
 		
 		return placeViewService.updateViewCnt(theme_id);
 	}
+	
+	
+		
+	
 	
 }

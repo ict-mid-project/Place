@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- db에 저장된 api값 조회 sql -->
+<mapper namespace="com.midproject.tripin.repository.PlaceViewRepo">
+
+<!-- db저장값 조회 -->
+<!-- 전체 db값 랜덤 출력 -->
+<select id="getAllPlaces" parameterType="hashmap" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT * 
+	FROM (
+		SELECT * 
+		FROM dests d
+		LEFT JOIN dest_themes dt ON dt.dest_id = d.dest_id
+		LEFT JOIN themes t ON t.theme_id = dt.theme_id
+		LEFT JOIN reviews r ON d.dest_id = r.dest_id
+		 
+	<where>
+		<if test="searchKeyword != null">
+			(dest_name LIKE '%${searchKeyword}%'
+			OR full_address LIKE '%${searchKeyword}%')
+		</if>
+		<if test="theme_id != null">
+			AND t.theme_id = #{theme_id}
+		</if>
+	</where>
+	<choose>
+		<when test="sort == '별점순'">
+			ORDER BY rating DESC
+		</when>
+		<otherwise>
+			ORDER BY dbms_random.value
+		</otherwise>
+	</choose>
+	)
+</select>
+
+<!-- 단순 테마별 db값 출력 -->
+<select id="getPlaceByFilter" parameterType="com.midproject.tripin.model.PlaceVO" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT d.*
+	FROM dests d
+	JOIN dest_themes dt ON dt.dest_id = d.dest_id
+	JOIN themes t ON t.theme_id = dt.theme_id
+	WHERE dt.theme_id = #{theme_id}
+</select>
+
+<!-- 조회수 증가 -->
+<update id="updateViewCnt" parameterType="int">
+	UPDATE themes
+	SET theme_cnt = NVL(theme_cnt, 0) + 1
+	WHERE theme_id = #{theme_id}
+</update>
+
+<!-- 상세보기를 위한 dest_id 불러오기 -->
+<select id="getPlaceByDestId" resultType="com.midproject.tripin.model.PlaceVO">
+	SELECT * FROM dests
+	WHERE dest_id = #{dest_id}
+</select>
+
+</mapper>

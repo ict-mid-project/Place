@@ -9,7 +9,7 @@
 <body>
 
 <a href="place_list.do">여행지 검색</a><br/>
-<a href="placeDetail.do">여행지 상세보기</a>
+
 
 
 </body>

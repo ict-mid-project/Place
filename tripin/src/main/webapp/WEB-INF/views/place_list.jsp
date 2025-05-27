@@ -20,6 +20,7 @@
 <script type="text/javascript" src="/tripin/resources/js/place_list.js"></script>
 <!-- favicon -->
 <link rel="icon" href="/tripin/resources/img/favicon.ico">
+
 </head>
 <body>
   <!-- 헤더 -->
@@ -33,7 +34,7 @@
 	      <nav class="main-nav">
 	      	<a href="#" class="home">홈</a>
 	      	<a href="#" class="trivy">트리비와 대화하기</a>
-	      	<a href="place_list.do" class="theme">테마여행</a>      
+	      	<a href="place_list" class="theme">테마여행</a>      
 	      	<a href="#" class="detail">여행지 상세</a>
 	      </nav>	
       </div>
@@ -59,52 +60,51 @@
 	        <input class="search-button" type="submit" value="검색">
    		</div>
 	  </form>
-      <form action="fetch" method="get">
+      <!-- <form action="fetch" method="get">
       	<button type="submit">최신여행정보 불러오기</button>
-      </form>
+      </form> -->
     </section>
   </div>
-  
   <!-- 테마 필터 -->
   <div class="theme-filter-wrapper scroll-container">
   	<div class="theme-filter-scroll">
-  		<button class="theme-button ${param.theme eq '자연'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-landscape-line ri-xl"></i>
   			</div>
   			<span data-value="1">자연</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '문화'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-ancient-pavilion-line ri-xl"></i>
   			</div>
   			<span data-value="2">문화</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '레저'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-run-line ri-xl"></i>
   			</div>
   			<span data-value="3">레저</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '맛집'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-restaurant-line ri-xl"></i>
   			</div>
   			<span data-value="4">맛집</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '숙소'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-hotel-line ri-xl"></i>
   			</div>
   			<span data-value="5">숙소</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '쇼핑'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-shopping-bag-line ri-xl"></i>
   			</div>
   			<span data-value="6">쇼핑</span>
   		</button>
-  		<button class="theme-button ${param.theme eq '축제'?'active':''}">
+  		<button class="theme-button">
   			<div class="theme-icon">
   				<i class="ri-calendar-event-line ri-xl"></i>
   			</div>
@@ -123,7 +123,6 @@
   				<span id="selectedSort">
   					<c:choose>
   						<c:when test="${param.sort == '최신순'}">최신순</c:when>
-  						<c:when test="${param.sort == '별점순'}">별점순</c:when>
   						<c:otherwise>인기순</c:otherwise>
   					</c:choose>
   				</span> 
@@ -131,21 +130,12 @@
   			</button>
   			<div class="dropdown-menu" id="dropdown-menu">
   				<div class="dropdown-item" data-value="인기순">인기순</div>
-  				<div class="dropdown-item" data-value="별점순">별점순</div>
   				<div class="dropdown-item" data-value="최신순">최신순</div>  			
   			</div>
   		</div>
-  		<c:if test="${not empty param.theme}">
-	  		<div class="filter-tag" data-value="${param.theme}">
-	  			<span>${param.theme}</span>
-	  			<button class="filter-close">
-	  				<i class="ri-close-line"></i>
-	  			</button>
-	  		</div>
-  		</c:if>
   	</div>
-  	<form action="place_list.do" method="get" id="filter-form">
-	  	<input type="hidden" name="theme" id="theme">
+  	<form action="place_list" method="get" id="filter-form">
+	  	<input type="hidden" name="theme_id" id="theme_id">
 	  	<input type="hidden" name="sort" id="sort">
   	</form>
 	<div class="filter-right">
@@ -159,7 +149,7 @@
   <section class="result-bar">
   	<!-- 여행지카드 -->
   	<c:forEach var="place" items="${placeList}">
-	  	<div class="place-card" onclick="location.href='placeDetail.do?dest_id=${place.dest_id}'">
+	  	<div class="place-card" data-dest-id="${place.dest_id}">
 	  	<!-- 이미지 유무 -->
 	  	<c:choose>
 	  		<c:when test="${empty place.repr_img_url}">
@@ -171,9 +161,18 @@
 		  		alt="${place.dest_name}">	  			
 	  		</c:otherwise>
 	  	</c:choose>
-	  		<button class="bookmark">
-	  			<i class="ri-heart-line"></i>
-	  		</button>
+	  	<c:choose>
+	  		<c:when test="${empty place.user_id}">
+	  			<button class="bookmark" type="button">
+	 	 			<i class="ri-heart-line"></i>
+	  			</button>
+	  		</c:when>
+	  		<c:when test="${place.user_id == session.scope and place.bookmarked == true}">
+	  			<button class="bookmark" type="button">
+	 	 			<i class="ri-heart-fill text-red-500"></i>
+	  			</button>
+	  		</c:when>
+	  	</c:choose>
 	  		<div class="place-content">
 	  			<h3 class="place-title">${place.dest_name}</h3>
 	  			<p class="place-text">${place.rel_keywords}</p>

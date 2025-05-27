@@ -60,7 +60,14 @@
    <!-- 📸 사진 (지도 영역까지 확장) -->
 <div class="w-full h-[600px] rounded-xl shadow overflow-hidden mb-10">
   <div id="mainImageSlider" class="flex transition-transform duration-500 ease-in-out">
-    <img src="${place.repr_img_url}" class="main-photo w-full h-full object-cover snap-center cursor-pointer" />
+  	<c:choose>
+  		<c:when test="${empty place.repr_img_url}">
+  			<div class="skeleton-img"></div>
+  		</c:when>
+  		<c:otherwise>
+    		<img src="${place.repr_img_url}" class="main-photo w-full h-full object-cover snap-center cursor-pointer" />
+    	</c:otherwise>
+    </c:choose>
   </div>
   
 </div>
@@ -91,7 +98,6 @@
   		<p><strong>연락처:</strong> ${place.contact_num}</p>
     </div>
     <div id="tab-guide" class="tab-content hidden">
-    <p>${detail.contenettypeid}</p>
    	 <c:choose>
    	 	<c:when test="${detail.contenttypeid == 12}">
    	 		<p><strong>운영시간: </strong>${detail.usetime}</p>
@@ -135,7 +141,6 @@
    	 </c:choose>
     </div>
     <div id="tab-detail" class="tab-content hidden">
-     <p>${detail.contenettypeid}</p>
    	 <c:choose>
    	 	<c:when test="${detail.contenttypeid == 12}">
    	 		<p><strong>주차시설: </strong>${detail.parking}</p>
